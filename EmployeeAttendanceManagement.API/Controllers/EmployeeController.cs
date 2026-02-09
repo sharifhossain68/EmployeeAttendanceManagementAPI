@@ -1,5 +1,6 @@
 ﻿using EmployeeAttendanceManagement.Application.DTOs;
 using EmployeeAttendanceManagement.Application.Interfaces;
+using EmployeeAttendanceManagement.Application.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeAttendanceManagement.API.Controllers
@@ -8,24 +9,28 @@ namespace EmployeeAttendanceManagement.API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeRepository _repo;
+        private readonly EmployeeService _employeeService;
 
-        public EmployeeController(IEmployeeRepository repo)
+        public EmployeeController(EmployeeService employeeService)
         {
-            _repo = repo;
+            _employeeService = employeeService;
         }
 
         [HttpGet("list")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _repo.GetAllAsync());
+            return Ok(await _employeeService.GetAllAsync());
         }
 
 
         [HttpPost("add")]
         public async Task<IActionResult> Create(EmployeeDTO employeeDTO)
         {
-            await _repo.AddEmployeeAsync(employeeDTO);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            
+            await _employeeService.AddEmployeeAsync(employeeDTO);
             return Ok(new { message = "Employee added successfully" });
         }
 
@@ -41,7 +46,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
             }
 
 
-            await _repo.UpdateEmployeeAsync(employeeDTO);
+            await _employeeService.UpdateEmployeeAsync(employeeDTO);
 
             return Ok(new
             {
@@ -53,7 +58,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteEmployee(int id)
         {
-            await _repo.SoftDeleteAsync(id);
+            await _employeeService.SoftDeleteAsync(id);
 
             return Ok(new
             {

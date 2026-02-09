@@ -1,5 +1,6 @@
 ﻿using EmployeeAttendanceManagement.Application.DTOs;
 using EmployeeAttendanceManagement.Application.Interfaces;
+using EmployeeAttendanceManagement.Application.Service;
 using EmployeeAttendanceManagement.Domain.Entities;
 using EmployeeAttendanceManagement.Infrastructure.Repository;
 using Microsoft.AspNetCore.Http;
@@ -13,11 +14,11 @@ namespace EmployeeAttendanceManagement.API.Controllers
     public class AttendanceController : ControllerBase
     {
 
-        private readonly IAttendanceRepository _repo;
+        private readonly AttendanceService _attendanceService;
 
-        public AttendanceController(IAttendanceRepository repo)
+        public AttendanceController(AttendanceService attendanceService)
         {
-            _repo = repo;
+            _attendanceService = attendanceService;
         }
  
       
@@ -25,7 +26,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
         public async Task<IActionResult> CheckIn(
             AttendanceCheckInDTO  attendanceCheckInDTO)
         {
-            await _repo.CheckInAsync(attendanceCheckInDTO);
+            await _attendanceService.CheckInAsync(attendanceCheckInDTO);
             return Ok(new
             {
                 success = true,
@@ -38,7 +39,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
         public async Task<IActionResult> CheckOut(
             AttendanceCheckOutDTO  attendanceCheckOutDTO)
         {
-            await _repo.CheckOutAsync(attendanceCheckOutDTO);
+            await _attendanceService.CheckOutAsync(attendanceCheckOutDTO);
             return Ok(new
             {
                 success = true,
@@ -53,7 +54,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
         {
             try
             {
-                await _repo.UpdateAttendanceAsync(attendance);
+                await _attendanceService.UpdateAttendanceAsync(attendance);
                 return Ok(new { message = "Attendance updated successfully" });
             }
             catch (InvalidOperationException ex)
@@ -70,7 +71,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
         {
             try
             {
-                await _repo.DeleteAttendanceAsync(id);
+                await _attendanceService.DeleteAttendanceAsync(id);
                 return Ok(new { message = "Attendance deleted permanently" });
             }
             catch (InvalidOperationException ex)
@@ -86,7 +87,7 @@ namespace EmployeeAttendanceManagement.API.Controllers
         public async Task<IActionResult> Report(DateOnly from, DateOnly to)
         {
 
-           return Ok(await _repo.Report(from, to));
+           return Ok(await _attendanceService.GetReportAsync(from, to));
         }
 
 

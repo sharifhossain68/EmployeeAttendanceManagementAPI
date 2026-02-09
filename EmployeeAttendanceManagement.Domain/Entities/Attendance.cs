@@ -13,6 +13,7 @@ namespace EmployeeAttendanceManagement.Domain.Entities
         public DateOnly AttendanceDate { get; set; }
         public DateTime? CheckInTime { get; set; }
         public DateTime? CheckOutTime { get; set; }
+
         public virtual Employee Employee { get; set; }
 
        

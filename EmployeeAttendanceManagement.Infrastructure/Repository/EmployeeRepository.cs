@@ -70,6 +70,7 @@ namespace EmployeeAttendanceManagement.Infrastructure.Repository
 
             emp.FullName = employeeDTO.FullName;
             emp.Email = employeeDTO.Email;
+            emp.UpdatedAt = DateTime.Now;
 
             //emp.EmployeeCode = employeeDTO.EmployeeCode;
 

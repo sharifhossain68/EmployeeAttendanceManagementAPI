@@ -1,4 +1,5 @@
 using EmployeeAttendanceManagement.Application.Interfaces;
+using EmployeeAttendanceManagement.Application.Service;
 using EmployeeAttendanceManagement.Infrastructure.Data;
 using EmployeeAttendanceManagement.Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,11 @@ builder.Services.AddDbContext<EmployeeAttendanceDbContext>(options =>
 // Repositories
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+
+//Service
+builder.Services.AddScoped<AttendanceService>();
+builder.Services.AddScoped<EmployeeService>();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {

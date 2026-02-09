@@ -95,6 +95,7 @@ namespace EmployeeAttendanceManagement.Infrastructure.Repository
             attendance.AttendanceDate = att.AttendanceDate;
             attendance.CheckInTime = att.CheckInTime;
             attendance.CheckOutTime = att.CheckOutTime;
+          
 
 
             await _context.SaveChangesAsync();

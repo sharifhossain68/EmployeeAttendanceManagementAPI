@@ -22,30 +22,18 @@ namespace EmployeeAttendanceManagement.Infrastructure.Data
             modelBuilder.Entity<Employee>()
                .HasIndex(e => e.EmployeeCode)
                .IsUnique();
-
+            //.HasQueryFilter(e => !e.IsDeleted);
+            //modelBuilder.Entity<Employee>()
+            //.Property(e => e.UpdatedAt)
+            //.HasColumnName("UpdatedAt");
             // Attendance unique per day per employee
             modelBuilder.Entity<Attendance>()
                 .HasIndex(a => new { a.EmployeeId, a.AttendanceDate })
                 .IsUnique();
-        //    modelBuilder.Entity<Employee>()
-        //.HasQueryFilter(e => !e.IsDeleted);
-
+            //    modelBuilder.Entity<Employee>()
+ 
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Employee>(entity =>
-            //{
-            //    entity.HasKey(e => e.EmployeeId);
-            //    entity.HasIndex(e => e.Email).IsUnique();
-            //});
-
-            //modelBuilder.Entity<Attendance>(entity =>
-            //{
-            //    entity.HasKey(a => a.AttendanceId);
-            //    entity.HasIndex(a => new { a.EmployeeId, a.AttendanceDate }).IsUnique();
-
-            //    entity.HasOne(d => d.Employee)
-            //        .WithMany(p => p.Attendances)
-            //        .HasForeignKey(d => d.EmployeeId);
-            //});
+           
         }
     }
 }
